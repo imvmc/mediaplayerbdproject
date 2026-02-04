@@ -295,7 +295,52 @@ GROUP BY email
 HAVING COUNT(*) > 1;
 
 -- ====================================
--- 8. VIEWS ÚTEIS
+-- 8. OPERAÇÕES DE MODIFICAÇÃO (UPDATE/DELETE)
+-- ====================================
+
+-- UPDATE: Atualizar nome de um usuário
+UPDATE USUARIO
+SET nome = 'Yasmin Silva Costa'
+WHERE id_usuario = 1;
+
+-- UPDATE: Atualizar gênero de um álbum
+UPDATE ALBUM
+SET genero = 'Pop/Rock'
+WHERE id_album = 2;
+
+-- UPDATE: Atualizar múltiplos registros - Aumentar duração de músicas de um álbum
+UPDATE MUSICA
+SET duracao = duracao + 5
+WHERE id_album = 3;
+
+-- DELETE: Remover uma música específica (cascata via FK)
+-- Nota: Primeiro remove dos históricos e playlists
+DELETE FROM HISTORICO_REPRODUCAO
+WHERE id_musica = 19;
+
+DELETE FROM PLAYLIST_MUSICA
+WHERE id_musica = 19;
+
+DELETE FROM MUSICA
+WHERE id_musica = 19 AND titulo = 'It''s Time';
+
+-- DELETE: Remover uma playlist vazia
+DELETE FROM PLAYLIST_MUSICA
+WHERE id_playlist = 5;
+
+DELETE FROM PLAYLIST
+WHERE id_playlist = 5 AND id_usuario = 4;
+
+-- DELETE: Remover histórico de reprodução antigo (mais de 1 ano)
+DELETE FROM HISTORICO_REPRODUCAO
+WHERE data_hora_reproducao < datetime('now', '-1 year');
+
+-- DELETE: Limpar histórico de um usuário específico
+DELETE FROM HISTORICO_REPRODUCAO
+WHERE id_usuario = 2;
+
+-- ====================================
+-- 9. VIEWS ÚTEIS
 -- ====================================
 
 -- View: Catálogo completo de músicas
